@@ -11,17 +11,22 @@ const API = {
     return json[json.length - 1];
   },
   async addExercise(data) {
-    const id = location.search.split("=")[1];
+   		const id = location.search.split("=")[1];
+		let parsedInfo = JSON.stringify(data);
 
-    const res = await fetch("/api/workouts/" + id, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
+		let url = `http://localhost:8080/api/workouts/${id}`;
+		let headers = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: parsedInfo
+		};
 
-    const json = await res.json();
-
-    return json;
+		let response = await fetch(url, headers);
+		const json = await response.json();
+		console.log(json);
+		return json;
   },
   async createWorkout(data = {}) {
     const res = await fetch("/api/workouts", {
