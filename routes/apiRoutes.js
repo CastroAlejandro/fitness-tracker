@@ -54,6 +54,27 @@ router.get("/api/workouts", (req, res) => {
 // 	});
 // });
 
+router.put("/api/workouts/:id", (req, res) => {
+	console.log(req.body, req.params.id);
+	console.log(req.params);
+	Workout.findOneAndUpdate(
+	  { _id: req.params.id },
+	  {
+  
+		$push: { exercises: req.body },
+	  },
+	  { new: true, runValidators: true }
+	)
+	  .then((data) => {
+  
+		res.json(data);
+	  })
+	  .catch((err) => {
+		res.json(err);
+	  });
+  });
+
+
 // router.put("/api/workouts/:id", (req, res) => {
 // 	console.log(req.body, req.params.id);
 // 	console.log(req.params);
