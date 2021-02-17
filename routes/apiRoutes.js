@@ -95,7 +95,16 @@ router.put("/api/workouts/:id", (req, res) => {
 // 	  });
 //   });
 
-
+router.post("/api/workouts", (req, res) => {
+	console.log(req.body);
+	Workout.create({})
+	  .then((data) => {
+		res.json(data);
+	  })
+	  .catch((err) => {
+		res.json(err);
+	  });
+  });
 
 // // API.createWorkout
 // router.post("/api/workouts/", ({ body }, res) => {
@@ -110,5 +119,18 @@ router.put("/api/workouts/:id", (req, res) => {
 // 		});
 // });
 
+router.get("/api/workouts/range", (req, res) => {
+
+	Workout.aggregate()
+	  .sort({ day: -1 })
+	  .limit(7)
+	  .addFields({ totalDuration: { $sum: "$exercises.duration" } })
+	  .then((data) => {
+		res.json(data);
+	  })
+	  .catch((err) => {
+		res.json(err);
+	  });
+  });
 
 module.exports = router;
